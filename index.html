@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>微風計時器1.3.11</title>
+<title>專業魔術方塊計時器</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
@@ -16,702 +15,225 @@
     gap: 1rem;
     padding: 1rem;
   }
-  
-  .sidebar {
-    width: 280px;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    padding: 1rem;
-    overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .sidebar h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .stats-card {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2));
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .stats-card .label {
-    font-size: 0.75rem;
-    color: rgba(134, 239, 172, 1);
-    margin-bottom: 0.25rem;
-  }
-  
-  .stats-card .value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: rgba(187, 247, 208, 1);
-  }
-  
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .stat-small {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-  }
-  
-  .stat-small .label {
-    font-size: 0.7rem;
-    color: rgba(147, 197, 253, 1);
-  }
-  
-  .stat-small .value {
-    font-size: 1rem;
-    font-weight: bold;
-    color: rgba(191, 219, 254, 1);
-  }
-  
-  .records {
-    margin-top: 1rem;
-  }
-  
-  .records h3 {
-    font-size: 0.75rem;
-    color: rgba(156, 163, 175, 1);
-    margin-bottom: 0.5rem;
-  }
-  
-  .record-item {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.2s;
-  }
-  
-  .record-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .record-number {
-    background: rgba(0, 0, 0, 0.5);
-    color: rgba(156, 163, 175, 1);
-    border: 1px solid rgba(75, 85, 99, 1);
-    font-size: 0.7rem;
-    padding: 0.125rem 0.375rem;
-    border-radius: 0.25rem;
-  }
-  
-  .record-time {
-    font-weight: bold;
-    font-size: 1rem;
-  }
-  
-  .record-date {
-    font-size: 0.7rem;
-    color: rgba(156, 163, 175, 1);
-  }
-  
-  .delete-btn {
-    background: transparent;
-    border: none;
-    color: rgba(248, 113, 113, 1);
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s;
-    font-size: 1.2rem;
-  }
-  
-  .record-item:hover .delete-btn {
-    opacity: 1;
-  }
-  
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .scramble-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    max-width: 900px;
-    width: 100%;
-  }
-  
-  .scramble-label {
-    font-size: 0.875rem;
-    color: rgba(156, 163, 175, 1);
-    margin-bottom: 0.5rem;
-  }
-  
-  .scramble-text {
-    font-size: 1.25rem;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    font-family: 'Courier New', monospace;
-  }
-  
-  .timer-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1rem;
-    padding: 3rem;
-    max-width: 900px;
-    width: 100%;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .timer-display {
-    font-size: clamp(4rem, 12vw, 8rem);
-    font-weight: bold;
-    text-align: center;
-    transition: all 0.3s;
-  }
-  
-  .timer-hint {
-    text-align: center;
-    font-size: 0.875rem;
-    color: rgba(156, 163, 175, 1);
-    margin-top: 1rem;
-  }
-  
-  .event-info {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    text-align: right;
-    font-size: 0.875rem;
-    color: rgba(156, 163, 175, 1);
-  }
-  
-  .settings-btn {
-    margin-top: 1.5rem;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    border: none;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .settings-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  }
-  
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 1000;
-  }
-  
-  .modal-overlay.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .modal {
-    background: rgba(17, 24, 39, 0.95);
-    border: 1px solid rgba(75, 85, 99, 1);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    max-width: 500px;
-    width: 90%;
-  }
-  
-  .modal h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group label {
-    display: block;
-    color: rgba(209, 213, 219, 1);
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-  }
-  
-  .form-group select {
-    width: 100%;
-    background: rgba(31, 41, 55, 1);
-    border: 1px solid rgba(75, 85, 99, 1);
-    color: white;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  .theme-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-  
-  .theme-btn {
-    padding: 1rem;
-    border: 2px solid rgba(75, 85, 99, 1);
-    border-radius: 0.5rem;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .theme-btn.active {
-    border-color: white;
-    transform: scale(1.05);
-  }
-  
-  .theme-preview {
-    height: 2rem;
-    border-radius: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .theme-name {
-    font-size: 0.875rem;
-    color: rgba(209, 213, 219, 1);
-  }
-  
-  .modal-actions {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(75, 85, 99, 1);
-    display: flex;
-    gap: 0.75rem;
-  }
-  
-  .btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .btn-danger {
-    background: #ef4444;
-    color: white;
-    flex: 1;
-  }
-  
-  .btn-danger:hover {
-    background: #dc2626;
-  }
-  
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(75, 85, 99, 1);
-    color: white;
-  }
-  
-  .btn-secondary:hover {
-    background: rgba(75, 85, 99, 0.3);
-  }
-  
-  @media (max-width: 768px) {
-    body {
-      flex-direction: column;
-    }
-    .sidebar {
-      width: 100%;
-      max-height: 300px;
-    }
-  }
+  .sidebar { width: 280px; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-radius:1rem; padding:1rem; overflow-y:auto; border:1px solid rgba(255,255,255,0.1); }
+  .sidebar h2 { font-size:1.25rem; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+  .stats-card { background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(16,185,129,0.2)); border:1px solid rgba(34,197,94,0.3); border-radius:0.75rem; padding:1rem; margin-bottom:0.75rem; }
+  .stats-card .label { font-size:0.75rem; color: rgba(134,239,172,1); margin-bottom:0.25rem; }
+  .stats-card .value { font-size:1.5rem; font-weight:bold; color: rgba(187,247,208,1); }
+  .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.75rem; }
+  .stat-small { background: rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius:0.5rem; padding:0.5rem; }
+  .stat-small .label { font-size:0.7rem; color: rgba(147,197,253,1); }
+  .stat-small .value { font-size:1rem; font-weight:bold; color: rgba(191,219,254,1); }
+  .records { margin-top:1rem; }
+  .records h3 { font-size:0.75rem; color: rgba(156,163,175,1); margin-bottom:0.5rem; }
+  .record-item { background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.05); border-radius:0.5rem; padding:0.75rem; margin-bottom:0.5rem; display:flex; justify-content:space-between; align-items:center; transition:all 0.2s; }
+  .record-item:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+  .record-number { background: rgba(0,0,0,0.5); color: rgba(156,163,175,1); border:1px solid rgba(75,85,99,1); font-size:0.7rem; padding:0.125rem 0.375rem; border-radius:0.25rem; }
+  .record-time { font-weight:bold; font-size:1rem; }
+  .record-date { font-size:0.7rem; color: rgba(156,163,175,1); }
+  .delete-btn { background:transparent; border:none; color: rgba(248,113,113,1); cursor:pointer; opacity:0; transition:opacity 0.2s; font-size:1.2rem; padding:0.25rem 0.5rem; }
+  .record-item:hover .delete-btn { opacity:1; }
+  .main-content { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .scramble-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.1); border-radius:1rem; padding:1.5rem; margin-bottom:1.5rem; max-width:900px; width:100%; }
+  .scramble-label { font-size:0.875rem; color: rgba(156,163,175,1); margin-bottom:0.5rem; }
+  .scramble-text { font-size:1.25rem; text-align:center; background: rgba(0,0,0,0.2); border-radius:0.75rem; padding:1rem; font-family:'Courier New', monospace; min-height:3rem; }
+  .timer-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.1); border-radius:1rem; padding:3rem; max-width:900px; width:100%; cursor:pointer; position:relative; }
+  .timer-display { font-size: clamp(4rem, 12vw, 8rem); font-weight:bold; text-align:center; transition:all 0.3s; }
+  .settings-btn { margin-top:1.5rem; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border:none; color:white; padding:0.75rem 1.5rem; border-radius:0.75rem; font-size:1rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .settings-btn:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(0,0,0,0.3); }
+  .modal-overlay { display:none; position:fixed; inset:0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index:1000; }
+  .modal-overlay.active { display:flex; align-items:center; justify-content:center; }
+  .modal { background: rgba(17,24,39,0.95); border:1px solid rgba(75,85,99,1); border-radius:1rem; padding:1.5rem; max-width:500px; width:90%; }
+  .modal h3 { font-size:1.5rem; margin-bottom:1.5rem; }
+  .form-group { margin-bottom:1.5rem; }
+  .form-group label { display:block; color: rgba(209,213,219,1); margin-bottom:0.5rem; font-size:0.875rem; }
+  .form-group select { width:100%; background: rgba(31,41,55,1); border:1px solid rgba(75,85,99,1); color:white; padding:0.75rem; border-radius:0.5rem; font-size:1rem; }
+  .theme-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+  .theme-btn { padding:1rem; border:2px solid rgba(75,85,99,1); border-radius:0.5rem; background:transparent; cursor:pointer; transition:all 0.2s; }
+  .theme-btn.active { border-color:white; transform:scale(1.05); }
+  .theme-preview { height:2rem; border-radius:0.5rem; margin-bottom:0.5rem; }
+  .theme-name { font-size:0.875rem; color: rgba(209,213,219,1); }
+  .modal-actions { margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid rgba(75,85,99,1); display:flex; gap:0.75rem; }
+  .btn { padding:0.75rem 1.5rem; border:none; border-radius:0.5rem; font-size:0.875rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .btn-danger { background:#ef4444; color:white; flex:1; }
+  .btn-danger:hover { background:#dc2626; }
+  .btn-secondary { background:transparent; border:1px solid rgba(75,85,99,1); color:white; }
+  .btn-secondary:hover { background: rgba(75,85,99,0.3); }
+  @media (max-width:768px) { body { flex-direction:column; } .sidebar { width:100%; max-height:300px; } }
 </style>
 </head>
 <body>
-  <aside class="sidebar">
-    <h2>🏆 成績統計</h2>
-    <div id="stats"></div>
-    <div class="records">
-      <h3>歷史記錄</h3>
-      <div id="recordsList"></div>
-    </div>
-  </aside>
+<aside class="sidebar">
+  <h2>🏆 成績統計</h2>
+  <div id="stats"></div>
+  <div class="records">
+    <h3>歷史記錄</h3>
+    <div id="recordsList"></div>
+  </div>
+</aside>
 
-  <main class="main-content">
-    <div class="scramble-card">
-      <div class="scramble-label">打亂公式</div>
-      <div class="scramble-text" id="scramble">載入中...</div>
-    </div>
-
-    <div class="timer-card" id="timerCard">
-      <div class="timer-display" id="timerDisplay">0.000</div>
-      <div class="timer-hint" id="hint">按住空白鍵準備 / 點擊螢幕停止</div>
-      <div class="event-info">
-        目前項目：<span id="currentEvent">3×3×3 魔術方塊</span>
-      </div>
-    </div>
-
-    <button class="settings-btn" onclick="openSettings()">⚙️ 設定</button>
-  </main>
-
-  <div class="modal-overlay" id="modalOverlay" onclick="closeSettings()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <h3>計時器設定</h3>
-      
-      <div class="form-group">
-        <label>魔術方塊類型</label>
-        <select id="eventSelect" onchange="changeEvent()">
-          <option value="2x2x2">2×2×2 魔術方塊</option>
-          <option value="3x3x3" selected>3×3×3 魔術方塊</option>
-          <option value="4x4x4">4×4×4 魔術方塊</option>
-          <option value="5x5x5">5×5×5 魔術方塊</option>
-          <option value="Square-1">Square-1</option>
-          <option value="Pyraminx">金字塔魔術方塊</option>
-          <option value="Clock">魔錶</option>
-          <option value="Megaminx">五魔方</option>
-          <option value="Skewb">斜轉魔術方塊</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>介面主題</label>
-        <div class="theme-grid">
-          <button class="theme-btn active" onclick="changeTheme('aurora', this)">
-            <div class="theme-preview" style="background: linear-gradient(90deg, #1e3c72, #2a5298, #7e22ce)"></div>
-            <div class="theme-name">極光漸層</div>
-          </button>
-          <button class="theme-btn" onclick="changeTheme('neon', this)">
-            <div class="theme-preview" style="background: linear-gradient(90deg, #06b6d4, #14b8a6, #10b981)"></div>
-            <div class="theme-name">霓虹電光</div>
-          </button>
-          <button class="theme-btn" onclick="changeTheme('sunset', this)">
-            <div class="theme-preview" style="background: linear-gradient(90deg, #f97316, #ef4444, #ec4899)"></div>
-            <div class="theme-name">日落餘暉</div>
-          </button>
-          <button class="theme-btn" onclick="changeTheme('ocean', this)">
-            <div class="theme-preview" style="background: linear-gradient(90deg, #0c4a6e, #1e40af, #06b6d4)"></div>
-            <div class="theme-name">深海藍調</div>
-          </button>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn btn-danger" onclick="clearAllRecords()">清除所有記錄</button>
-        <button class="btn btn-secondary" onclick="closeSettings()">關閉</button>
-      </div>
-    </div>
+<main class="main-content">
+  <div class="scramble-card">
+    <div class="scramble-label">打亂公式</div>
+    <div class="scramble-text" id="scramble">載入中...</div>
   </div>
 
-  <script>
-    let time = 0;
-    let isRunning = false;
-    let status = 'idle';
-    let records = [];
-    let currentEvent = '3x3x3';
-    let scramble = '';
-    let timerInterval = null;
-    let holdTimeout = null;
-    let startTime = 0;
+  <div class="timer-card" id="timerCard">
+    <div class="timer-display" id="timerDisplay">0.000</div>
+  </div>
 
-    const THEMES = {
-      aurora: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%)',
-      neon: 'linear-gradient(135deg, #06b6d4 0%, #14b8a6 50%, #10b981 100%)',
-      sunset: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
-      ocean: 'linear-gradient(135deg, #0c4a6e 0%, #1e40af 50%, #06b6d4 100%)'
-    };
+  <button class="settings-btn" onclick="openSettings()">⚙️ 設定</button>
+</main>
 
-    function generateScramble(event) {
-      const moves = {
-        '2x2x2': ["R", "U", "F"],
-        '3x3x3': ["R", "L", "U", "D", "F", "B"],
-        '4x4x4': ["R", "L", "U", "D", "F", "B", "Rw", "Lw", "Uw", "Dw", "Fw", "Bw"],
-        '5x5x5': ["R", "L", "U", "D", "F", "B", "Rw", "Lw", "Uw", "Dw", "Fw", "Bw"]
-      };
+<div class="modal-overlay" id="modalOverlay" onclick="closeSettings()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3>計時器設定</h3>
+    <div class="form-group">
+      <label>魔術方塊類型</label>
+      <select id="eventSelect" onchange="changeEvent()">
+        <option value="2x2x2">2×2×2 魔術方塊</option>
+        <option value="3x3x3" selected>3×3×3 魔術方塊</option>
+        <option value="4x4x4">4×4×4 魔術方塊</option>
+        <option value="5x5x5">5×5×5 魔術方塊</option>
+        <option value="Square-1">Square-1</option>
+        <option value="Pyraminx">金字塔魔術方塊</option>
+        <option value="Clock">魔錶</option>
+        <option value="Megaminx">五魔方</option>
+        <option value="Skewb">斜轉魔術方塊</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>介面主題</label>
+      <div class="theme-grid">
+        <button class="theme-btn active" onclick="changeTheme('aurora', this)">
+          <div class="theme-preview" style="background: linear-gradient(90deg, #1e3c72, #2a5298, #7e22ce)"></div>
+          <div class="theme-name">極光漸層</div>
+        </button>
+        <button class="theme-btn" onclick="changeTheme('neon', this)">
+          <div class="theme-preview" style="background: linear-gradient(90deg, #06b6d4, #14b8a6, #10b981)"></div>
+          <div class="theme-name">霓虹電光</div>
+        </button>
+        <button class="theme-btn" onclick="changeTheme('sunset', this)">
+          <div class="theme-preview" style="background: linear-gradient(90deg, #f97316, #ef4444, #ec4899)"></div>
+          <div class="theme-name">日落餘暉</div>
+        </button>
+        <button class="theme-btn" onclick="changeTheme('ocean', this)">
+          <div class="theme-preview" style="background: linear-gradient(90deg, #0c4a6e, #1e40af, #06b6d4)"></div>
+          <div class="theme-name">深海藍調</div>
+        </button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" onclick="clearAllRecords()">清除所有記錄</button>
+      <button class="btn btn-secondary" onclick="closeSettings()">關閉</button>
+    </div>
+  </div>
+</div>
 
-      if (event === 'Square-1') {
-        let result = [];
-        for (let i = 0; i < 12; i++) {
-          const top = Math.floor(Math.random() * 12) - 5;
-          const bottom = Math.floor(Math.random() * 12) - 5;
-          result.push(`(${top},${bottom})`);
-        }
-        return result.join(' / ');
-      }
+<script>
+let time = 0;
+let isRunning = false;
+let status = 'idle';
+let records = [];
+let currentEvent = '3x3x3';
+let scramble = '';
+let timerInterval = null;
+let startTime = 0;
 
-      if (event === 'Megaminx') {
-        const megaMoves = ['R++', 'R--', 'D++', 'D--', 'U'];
-        let result = [];
-        for (let i = 0; i < 70; i++) {
-          result.push(megaMoves[Math.floor(Math.random() * megaMoves.length)]);
-        }
-        return result.join(' ');
-      }
+const THEMES = {
+  aurora: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%)',
+  neon: 'linear-gradient(135deg, #06b6d4 0%, #14b8a6 50%, #10b981 100%)',
+  sunset: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
+  ocean: 'linear-gradient(135deg, #0c4a6e 0%, #1e40af 50%, #06b6d4 100%)'
+};
 
-      if (event === 'Pyraminx') {
-        const pyraMoves = ['U', 'L', 'R', 'B', 'u', 'l', 'r', 'b'];
-        const modifiers = ['', "'"];
-        let result = [];
-        for (let i = 0; i < 10; i++) {
-          const move = pyraMoves[Math.floor(Math.random() * pyraMoves.length)];
-          const mod = modifiers[Math.floor(Math.random() * modifiers.length)];
-          result.push(move + mod);
-        }
-        return result.join(' ');
-      }
+// 打亂公式生成函數 (簡化)
+function generateScramble(event){
+  const moves = { '2x2x2':["R","U","F"], '3x3x3':["R","L","U","D","F","B"], '4x4x4':["R","L","U","D","F","B","Rw","Lw","Uw","Dw","Fw","Bw"], '5x5x5':["R","L","U","D","F","B","Rw","Lw","Uw","Dw","Fw","Bw"] };
+  if(event==='Square-1'){let r=[];for(let i=0;i<12;i++){r.push(`(${Math.floor(Math.random()*12)-5},${Math.floor(Math.random()*12)-5})`);} return r.join(' / ');}
+  if(event==='Megaminx'){const m=['R++','R--','D++','D--','U'];let r=[];for(let i=0;i<70;i++){r.push(m[Math.floor(Math.random()*m.length)]);} return r.join(' ');}
+  if(event==='Pyraminx'){const m=['U','L','R','B','u','l','r','b'],mod=['','\''];let r=[];for(let i=0;i<10;i++){r.push(m[Math.floor(Math.random()*m.length)]+mod[Math.floor(Math.random()*mod.length)]);} return r.join(' ');}
+  if(event==='Clock'){return 'UR4+ DR1+ DL3+ UL2+ U3+ R4+ D2+ L1+ ALL5+ y2 U4+ R2+ D3+ L1+ ALL3+';}
+  if(event==='Skewb'){const m=['R','L','U','B'],mod=['','\''];let r=[];for(let i=0;i<9;i++){r.push(m[Math.floor(Math.random()*m.length)]+mod[Math.floor(Math.random()*mod.length)]);} return r.join(' ');}
+  const base=moves[event]||moves['3x3x3']; const mod=['','\'','2']; let r=[]; let last=''; const len=event==='2x2x2'?9:20;
+  for(let i=0;i<len;i++){let mv; do{mv=base[Math.floor(Math.random()*base.length)];}while(mv[0]===last[0]); r.push(mv+mod[Math.floor(Math.random()*mod.length)]); last=mv;}
+  return r.join(' ');
+}
 
-      if (event === 'Clock') {
-        return 'UR4+ DR1+ DL3+ UL2+ U3+ R4+ D2+ L1+ ALL5+ y2 U4+ R2+ D3+ L1+ ALL3+';
-      }
+function formatTime(ms){const s=Math.floor(ms/1000); const msr=ms%1000; return `${s}.${msr.toString().padStart(3,'0')}`;}
 
-      if (event === 'Skewb') {
-        const skewbMoves = ['R', 'L', 'U', 'B'];
-        const modifiers = ['', "'"];
-        let result = [];
-        for (let i = 0; i < 9; i++) {
-          const move = skewbMoves[Math.floor(Math.random() * skewbMoves.length)];
-          const mod = modifiers[Math.floor(Math.random() * modifiers.length)];
-          result.push(move + mod);
-        }
-        return result.join(' ');
-      }
+function updateTimer(){time=Date.now()-startTime; document.getElementById('timerDisplay').textContent=formatTime(time);}
 
-      const baseMoves = moves[event] || moves['3x3x3'];
-      const modifiers = ['', "'", '2'];
-      let result = [];
-      let lastMove = '';
-      const length = event === '2x2x2' ? 9 : 20;
+function startTimer(){
+  if(isRunning){stopTimer(); return;}
+  if(status==='ready'){
+    isRunning=true; startTime=Date.now(); time=0;
+    timerInterval=setInterval(updateTimer,10);
+    updateDisplay();
+  }
+}
 
-      for (let i = 0; i < length; i++) {
-        let move;
-        do {
-          move = baseMoves[Math.floor(Math.random() * baseMoves.length)];
-        } while (move[0] === lastMove[0]);
-        
-        const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
-        result.push(move + modifier);
-        lastMove = move;
-      }
+function stopTimer(){
+  isRunning=false;
+  clearInterval(timerInterval);
+  const finalTime=Date.now()-startTime;
+  records.unshift({id:Date.now(),time:finalTime,scramble:scramble,event:currentEvent,date:new Date()});
+  updateRecords(); updateStats();
+  scramble=generateScramble(currentEvent);
+  document.getElementById('scramble').textContent=scramble;
+  updateDisplay();
+}
 
-      return result.join(' ');
-    }
+function updateDisplay(){
+  const d=document.getElementById('timerDisplay'); let color='#E5E7EB';
+  if(status==='ready') color='#4ADE80'; else if(isRunning) color='#60A5FA';
+  d.style.color=color; d.style.textShadow=isRunning?`0 0 40px ${color}`:'none';
+}
 
-    function formatTime(ms) {
-      const seconds = Math.floor(ms / 1000);
-      const milliseconds = ms % 1000;
-      return `${seconds}.${milliseconds.toString().padStart(3, '0')}`;
-    }
+function updateStats(){
+  if(records.length===0){document.getElementById('stats').innerHTML=`<div class="stats-card"><div class="label">尚無記錄</div></div>`; return;}
+  const times=records.map(r=>r.time); const best=Math.min(...times); const worst=Math.max(...times); const avg=(times.reduce((a,b)=>a+b,0)/times.length).toFixed(3);
+  document.getElementById('stats').innerHTML=`
+    <div class="stats-card"><div class="label">最佳時間</div><div class="value">${formatTime(best)}</div></div>
+    <div class="stats-card"><div class="label">最差時間</div><div class="value">${formatTime(worst)}</div></div>
+    <div class="stats-card"><div class="label">平均時間</div><div class="value">${formatTime(avg)}</div></div>
+  `;
+}
 
-    function updateTimer() {
-      time = Date.now() - startTime;
-      document.getElementById('timerDisplay').textContent = formatTime(time);
-    }
+function updateRecords(){
+  const list=document.getElementById('recordsList'); list.innerHTML='';
+  records.forEach((r,i)=>{
+    const div=document.createElement('div'); div.className='record-item';
+    div.innerHTML=`<div><div class="record-number">#${i+1}</div><div class="record-time">${formatTime(r.time)}</div><div class="record-date">${r.date.toLocaleString()}</div></div><button class="delete-btn" onclick="deleteRecord(${r.id})">🗑️</button>`;
+    list.appendChild(div);
+  });
+}
 
-    function startTimer() {
-      if (isRunning) {
-        stopTimer();
-      } else if (status === 'ready') {
-        isRunning = true;
-        status = 'idle';
-        startTime = Date.now();
-        time = 0;
-        timerInterval = setInterval(updateTimer, 10);
-        updateDisplay();
-      }
-    }
+function deleteRecord(id){records=records.filter(r=>r.id!==id); updateRecords(); updateStats();}
 
-    function stopTimer() {
-      isRunning = false;
-      clearInterval(timerInterval);
-      const finalTime = Date.now() - startTime;
-      records.unshift({
-        id: Date.now(),
-        time: finalTime,
-        scramble: scramble,
-        event: currentEvent,
-        date: new Date()
-      });
-      updateRecords();
-      updateStats();
-      scramble = generateScramble(currentEvent);
-      document.getElementById('scramble').textContent = scramble;
-      updateDisplay();
-    }
+function clearAllRecords(){records=[]; updateRecords(); updateStats();}
 
-    function updateDisplay() {
-      const display = document.getElementById('timerDisplay');
-      const hint = document.getElementById('hint');
-      
-      let color = '#E5E7EB';
-      let hintText = '按住空白鍵準備 / 點擊螢幕停止';
-      
-      if (status === 'holding') {
-        color = '#FFD700';
-        hintText = '繼續按住準備...';
-      } else if (status === 'ready') {
-        color = '#4ADE80';
-        hintText = '準備就緒！放開開始';
-      } else if (isRunning) {
-        color = '#60A5FA';
-        hintText = '計時中... 點擊停止';
-      }
-      
-      display.style.color = color;
-      display.style.textShadow = isRunning ? `0 0 40px ${color}` : 'none';
-      hint.textContent = hintText;
-    }
+function openSettings(){document.getElementById('modalOverlay').classList.add('active');}
+function closeSettings(){document.getElementById('modalOverlay').classList.remove('active');}
+function changeEvent(){currentEvent=document.getElementById('eventSelect').value; scramble=generateScramble(currentEvent); document.getElementById('scramble').textContent=scramble;}
+function changeTheme(theme, btn){document.body.style.background=THEMES[theme]; document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');}
 
-    function updateStats() {
-      if (records.length === 0) {
-        document.getElementById('stats').innerHTML = `
-          <div style="text-align: center; color: rgba(107, 114, 128, 1); padding: 2rem 0;">
-            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎲</div>
-            <div style="font-size: 0.875rem;">開始計時來查看統計</div>
-          </div>
-        `;
-        return;
-      }
+// 空格鍵控制計時器
+document.addEventListener('keydown',function(e){
+  if(e.code==='Space' && !isRunning && status==='idle'){e.preventDefault(); status='ready'; updateDisplay();}
+});
+document.addEventListener('keyup',function(e){
+  if(e.code==='Space'){e.preventDefault(); if(status==='ready'){startTimer();} status='idle'; updateDisplay();}
+});
+document.getElementById('timerCard').addEventListener('click',()=>{if(isRunning) stopTimer();});
 
-      const times = records.map(r => r.time);
-      const best = Math.min(...times);
-      const avg = times.reduce((a, b) => a + b, 0) / times.length;
-
-      let ao5 = null;
-      if (times.length >= 5) {
-        const last5 = times.slice(0, 5);
-        const sorted = [...last5].sort((a, b) => a - b);
-        ao5 = sorted.slice(1, 4).reduce((a, b) => a + b, 0) / 3;
-      }
-
-      let ao12 = null;
-      if (times.length >= 12) {
-        const last12 = times.slice(0, 12);
-        const sorted = [...last12].sort((a, b) => a - b);
-        ao12 = sorted.slice(1, 11).reduce((a, b) => a + b, 0) / 10;
-      }
-
-      let html = `
-        <div class="stats-card">
-          <div class="label">🏆 最佳成績</div>
-          <div class="value">${formatTime(best)}</div>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-small">
-            <div class="label">平均</div>
-            <div class="value">${formatTime(avg)}</div>
-          </div>
-      `;
-
-      if (ao5) {
-        html += `
-          <div class="stat-small">
-            <div class="label">Ao5</div>
-            <div class="value">${formatTime(ao5)}</div>
-          </div>
-        `;
-      }
-
-      html += '</div>';
-
-      if (ao12) {
-        html += `
-          <div class="stat-small" style="grid-column: 1 / -1;">
-            <div class="label">Ao12</div>
-            <div class="value">${formatTime(ao12)}</div>
-          </div>
-        `;
-      }
-
-      document.getElementById('stats').innerHTML = html;
-    }
-
-    function updateRecords() {
-      const list = document.getElementById('recordsList');
-      if (records.length === 0) {
-        list.innerHTML = '<div style="text-align: center; color: rgba(107, 114, 128, 1); padding: 1rem; font-size: 0.875rem;">暫無記錄</div>';
-        return;
-      }
-
-      list.innerHTML = records.map((record, index) => `
-        <div class="record-item">
-          <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1;">
-            <span class="record-number">#${records.length - index}</span>
-            <div>
-              <div class="record-time">${formatTime(record.time)}</div>
-              <div class="record-date">${record.date.toLocaleString('zh-TW', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
-            </div>
-          </div>
-          <button class="delete-btn" onclick="deleteRecord(${record.id})">×</button>
-        </div>
-      `).join('');
-    }
-
-    function deleteRecord(id) {
-      records = records.filter(r => r.id !== id);
-      updateRecords();
-      updateStats();
-    }
-
-    function clearAllRecords() {
-      if (confirm('確定要清除所有記錄嗎？')) {
-        records = [];
-        updateRecords();
-        updateStats();
-      }
-    }
-
-    function changeEvent() {
-      currentEvent = document.getElementById('eventSelect').value;
-      const eventNames = {
-        '2x2x2': '2×2×2 魔術方塊',
-        '3x3x3': '3×3×3 魔術方塊',
-        '4x4x4': '4×4×4 魔術方塊',
-        '5x5x5': '5×5×5 魔術方塊',
-        'Square-1': 'Square-1',
-        'Pyraminx': '金字塔魔術方塊',
-        'Clock': '魔錶',
-        'Megaminx': '五魔方',
-        'Skewb': '斜轉魔術方塊'
-      };
-      document.getElementById('currentEvent').textContent = eventNames[currentEvent];
-      scramble = generateScramble(currentEvent);
-      document.getElementById('scramble').textContent = scramble;
-    }
-
-    function changeTheme(theme, btn) {
-      document.body.style.background = THEMES[theme];
-      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    function openSettings() {
-      document.getElementById('modalOverlay').classList.add('active');
+window.addEventListener('DOMContentLoaded',()=>{
+  scramble=generateScramble(currentEvent);
+  document.getElementById('scramble').textContent=scramble;
+  updateStats();
+  updateRecords();
+  updateDisplay();
+});
+</script>
+</body>
+</html>
